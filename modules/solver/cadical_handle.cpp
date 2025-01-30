@@ -354,8 +354,8 @@ CaDiCaLHandle::solve(parac_task& task) {
     return PARAC_ABORTED;
   }
 
-  // Add symmetry breaking before solving, using order from config
-  SymmetryBreaker se(&m_internal->solver, m_internal->handle.config->symmetryBreakerOrder());
+  // Add symmetry breaking before solving
+  SymmetryBreaker se(&m_internal->solver, m_solverConfig->symmetryBreakerOrder());
 
   return m_solverHandle.get().solve();
 }
