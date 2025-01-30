@@ -8,7 +8,6 @@
 #include "quapisolver_sat_handle.hpp"
 #include "solver_assignment.hpp"
 #include "solver_config.hpp"
-#include "symbreak.hpp"
 
 #include "paracooba/common/task.h"
 #include "paracooba/common/timeout.h"
@@ -25,6 +24,9 @@
 #include <string_view>
 #include <unistd.h>
 #include <vector>
+
+// Include symbreak.hpp from CaDiCaL's source directory
+#include <cadical/src/symbreak.hpp>  // This path works because of how we set up the include directories in CMake
 
 #ifdef __FreeBSD__
 #define PARAC_DEFAULT_TEMP_PATH "/tmp"
