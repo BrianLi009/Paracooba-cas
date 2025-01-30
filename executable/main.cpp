@@ -64,18 +64,25 @@ distracInit(distrac_wrapper& wrapper, const CLI& cli) {
 }
 #endif
 
-static bool
-isDirectoryEmpty(std::string path) {
-  if(!boost::filesystem::is_directory(path))
-    return false;
+#include <boost/filesystem.hpp>
+#include <iostream>
 
-  boost::filesystem::directory_iterator end;
-  boost::filesystem::directory_iterator it(path);
-  if(it == end)
-    return true;
-  else
-    return false;
+static bool isDirectoryEmpty(const std::string& path) {
+    try {
+        boost::filesystem::path dir_path(path);
+        if (!boost::filesystem::is_directory(dir_path)) {
+            return false; // Not a directory
+        }
+
+        // Check if the directory is empty by comparing iterators
+        return boost::filesystem::directory_iterator(dir_path) == boost::filesystem::directory_iterator();
+    } catch (const boost::filesystem::filesystem_error& ex) {
+        // Handle filesystem errors gracefully
+        std::cerr << "Filesystem error: " << ex.what() << std::endl;
+        return false; // Default to not empty if an error occurs
+    }
 }
+
 
 static ModuleLoader* GlobalModuleLoader = nullptr;
 
