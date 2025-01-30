@@ -122,7 +122,8 @@ CaDiCaLHandle::CaDiCaLHandle(CaDiCaLHandle& o, const SolverConfig& cfg)
                                  o.m_internal->originatorId,
                                  o.m_internal->pregeneratedCubes,
                                  o.m_internal->pregeneratedCubesJumplist))
-  , m_solverHandle(*m_internal) {
+  , m_solverHandle(*m_internal)
+  , m_solverConfig(&cfg) {
   // Copy from other solver to this one.
   o.solver().copy(solver());
 
@@ -354,8 +355,10 @@ CaDiCaLHandle::solve(parac_task& task) {
     return PARAC_ABORTED;
   }
 
-  // Add symmetry breaking before solving
-  SymmetryBreaker se(&m_internal->solver, m_solverConfig->symmetryBreakerOrder());
+  // Add symmetry breaking before solving, using config if available
+  if(m_solverConfig) {
+    SymmetryBreaker se(&m_internal->solver, m_solverConfig->symmetryBreakerOrder());
+  }
 
   return m_solverHandle.get().solve();
 }

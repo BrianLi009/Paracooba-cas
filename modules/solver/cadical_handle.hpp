@@ -89,6 +89,7 @@ class CaDiCaLHandle {
   std::shared_ptr<Internal> m_internal;
   std::unique_ptr<PortfolioSATHandle> m_portfolioSATHandle;
   std::reference_wrapper<GenericSolverHandle> m_solverHandle;
+  const SolverConfig* m_solverConfig = nullptr;
 
   void generateJumplist();
 
