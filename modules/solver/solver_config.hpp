@@ -33,6 +33,7 @@ class SolverConfig {
     DisableLocalKissat,
     ConcurrentCubeTreeCount,
     DistributeCubeTreeLearntClausesMaxLevel,
+    SymmetryBreakerOrder,
     _COUNT
   };
 
@@ -54,6 +55,7 @@ class SolverConfig {
   bool DisableLocalKissat() const { return m_disableLocalKissat; }
   parac_id OriginatorId() const { return m_originatorId; }
   uint32_t InitialSplitTimeoutMS() const { return m_initialSplitTimeoutMS; }
+  uint16_t SymmetryBreakerOrder() const { return m_symmetryBreakerOrder; }
 
   struct QuapiSolver {
     /** @brief Create QuapiSolver config instance from a single CLI arg.
@@ -103,6 +105,7 @@ class SolverConfig {
   float m_splitMultiplicationFactor = 2;
   parac_id m_originatorId = 0;
   uint32_t m_initialSplitTimeoutMS = 30000;
+  uint16_t m_symmetryBreakerOrder = 20;
   std::vector<QuapiSolver> m_quapiSolvers;
 
   friend class cereal::access;
@@ -123,6 +126,7 @@ class SolverConfig {
                         m_splitMultiplicationFactor),
        cereal::make_nvp("initialSplitTimeoutMS", m_initialSplitTimeoutMS),
        cereal::make_nvp("originatorId", m_originatorId),
+       cereal::make_nvp("symmetryBreakerOrder", m_symmetryBreakerOrder),
        cereal::make_nvp("quapisolvers", m_quapiSolvers));
   }
 

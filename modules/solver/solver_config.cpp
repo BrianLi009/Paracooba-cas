@@ -159,6 +159,17 @@ SolverConfig::SolverConfig(parac_config* config, parac_id localId) {
   m_config[static_cast<size_t>(Entry::QuapiSolvers)]
     .default_value.string_vector.size = 0;
 
+  parac_config_entry_set_str(
+    &m_config[static_cast<size_t>(Entry::SymmetryBreakerOrder)],
+    "symmetry-breaker-order",
+    "Order parameter for symmetry breaking in the SAT solver");
+  m_config[static_cast<size_t>(Entry::SymmetryBreakerOrder)].registrar = 
+    PARAC_MOD_SOLVER;
+  m_config[static_cast<size_t>(Entry::SymmetryBreakerOrder)].type = 
+    PARAC_TYPE_UINT16;
+  m_config[static_cast<size_t>(Entry::SymmetryBreakerOrder)]
+    .default_value.uint16 = 20;
+
   m_originatorId = localId;
 }
 
@@ -190,6 +201,8 @@ SolverConfig::extractFromConfigEntries() {
     m_config[static_cast<size_t>(
                Entry::DistributeCubeTreeLearntClausesMaxLevel)]
       .value.uint16;
+  m_symmetryBreakerOrder = 
+    m_config[static_cast<size_t>(Entry::SymmetryBreakerOrder)].value.uint16;
 
   parseQuapiSolversCLI(m_config[static_cast<size_t>(Entry::QuapiSolvers)]);
 }

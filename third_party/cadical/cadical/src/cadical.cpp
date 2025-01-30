@@ -4,7 +4,6 @@
 
 #include "internal.hpp"
 #include "signal.hpp" // Separate, only need for apps.
-#include "symbreak.hpp"
 
 /*------------------------------------------------------------------------*/
 
@@ -840,8 +839,6 @@ int App::main (int argc, char **argv) {
       res = 0;
   } else {
     solver->section ("solving");
-
-    SymmetryBreaker se(solver, 20);
 
     max_var = solver->active ();
     

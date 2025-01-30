@@ -8,6 +8,7 @@
 #include "quapisolver_sat_handle.hpp"
 #include "solver_assignment.hpp"
 #include "solver_config.hpp"
+#include "symbreak.hpp"
 
 #include "paracooba/common/task.h"
 #include "paracooba/common/timeout.h"
@@ -350,6 +351,9 @@ CaDiCaLHandle::solve(parac_task& task) {
   if(m_internal->terminator) {
     return PARAC_ABORTED;
   }
+
+  // Add symmetry breaking before solving, using order from config
+  SymmetryBreaker se(&m_internal->solver, m_internal->handle.config->symmetryBreakerOrder());
 
   return m_solverHandle.get().solve();
 }
