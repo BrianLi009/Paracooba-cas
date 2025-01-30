@@ -26,7 +26,7 @@
 #include <vector>
 
 // Include symbreak.hpp from CaDiCaL's source directory
-#include <cadical/src/symbreak.hpp>  // This path works because of how we set up the include directories in CMake
+#include <src/symbreak.hpp>  // Try this path first
 
 #ifdef __FreeBSD__
 #define PARAC_DEFAULT_TEMP_PATH "/tmp"
