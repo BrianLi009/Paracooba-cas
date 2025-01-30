@@ -8,16 +8,17 @@ ExternalProject_Add(cadical
     PREFIX cadical
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cadical
     BUILD_IN_SOURCE 1
-    BUILD_COMMAND bash -c "./configure -q CXX=${CMAKE_CXX_COMPILER} CXXFLAGS=\"-fPIC ${CADICAL_SANITIZER_OPTIONS} -fvisibility=hidden\" && ${MAKE_COMMAND} -C build libcadical.a"
+    BUILD_COMMAND bash -c "./configure -q CXX=\"${CMAKE_CXX_COMPILER}\" CXXFLAGS=\"-fPIC ${CADICAL_SANITIZER_OPTIONS} -fvisibility=hidden\" && make -C build libcadical.a"
     UPDATE_COMMAND ""
     INSTALL_COMMAND ""
     CONFIGURE_COMMAND ""
 )
+
 ExternalProject_Add_Step (
     cadical CopyHeaders
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/cadical/src/ ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/include/src
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/include/src ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/include/cadical
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/cadical/src/cadical/build/${CMAKE_STATIC_LIBRARY_PREFIX}cadical${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/build/${CMAKE_STATIC_LIBRARY_PREFIX}cadical${CMAKE_STATIC_LIBRARY_SUFFIX}
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/cadical/build/libcadical.a ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/build/libcadical.a
     DEPENDEES build
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/cadical-out/build/${CMAKE_STATIC_LIBRARY_PREFIX}cadical${CMAKE_STATIC_LIBRARY_SUFFIX}
 )
