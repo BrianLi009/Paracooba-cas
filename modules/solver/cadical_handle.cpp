@@ -75,6 +75,7 @@ struct CaDiCaLHandle::Internal : public GenericSolverHandle {
   std::shared_ptr<std::vector<Literal>> pregeneratedCubes;
   std::shared_ptr<std::vector<size_t>> pregeneratedCubesJumplist;
   std::unique_ptr<SolverAssignment> m_solverAssignment;
+  std::unique_ptr<SymmetryBreaker> symmetryBreaker;
 
   virtual void assumeCube(const CubeIteratorRange& c) override {
     applyCubeAsAssumptionToSolver(c, solver);
@@ -357,7 +358,10 @@ CaDiCaLHandle::solve(parac_task& task) {
 
   // Add symmetry breaking before solving, using config if available
   if(m_solverConfig) {
-    SymmetryBreaker se(&m_internal->solver, m_solverConfig->SymmetryBreakerOrder());
+    m_internal->symmetryBreaker = std::make_unique<SymmetryBreaker>(
+      &m_internal->solver, 
+      m_solverConfig->SymmetryBreakerOrder()
+    );
   }
 
   return m_solverHandle.get().solve();
